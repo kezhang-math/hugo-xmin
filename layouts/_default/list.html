@@ -1,20 +1,34 @@
 {{ partial "header.html" . }}
 
-{{if not .IsHome }}
-<h1>{{ .Title | markdownify }}</h1>
-{{ end }}
+<!-- List all pages recursively by section up to two levels.  -->
 
-{{ .Content }}
-
-<ul>
-  {{ $pages := .Pages }}
-  {{ if .IsHome }}{{ $pages = .Site.RegularPages }}{{ end }}
-  {{ range (where $pages "Section" "!=" "") }}
-  <li>
-    <span class="date">{{ .Date.Format "2006/01/02" }}</span>
-    <a href="{{ .RelPermalink }}">{{ .Title | markdownify }}</a>
-  </li>
-  {{ end }}
-</ul>
+<div id = "main">
+	<div id="content">
+		{{ .Content }}
+		{{ with .Sections}}
+			<!-- If has sections -->
+			{{ range . }}
+				<h2> {{ .Title }} </h2>
+				{{ .Content }}
+				{{ with .Sections }}  
+				<!-- Has subsections, go through them -->
+				{{ range . }}
+					<h3> {{ .Title }} </h3>
+					{{ .Content }}
+					<!-- List pages in subsection -->
+					{{ partial "list-pages.html" . }}
+					{{ end }}
+					{{ else }}
+					<!-- No subsections, go through pages -->
+					{{ partial "list-pages.html" . }}
+				{{ end }}
+			{{ end }}
+		{{ else }}
+			<!-- No sections -->
+			{{ partial "list-pages.html" . }}
+		{{ end }}
+	</div>	
+</div>
 
 {{ partial "footer.html" . }}
+

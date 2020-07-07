@@ -1,0 +1,12 @@
+{{ range .RegularPages }}
+<li>  
+	<!-- <span class="date">{{ .Date.Format "2006/01/02" }}</span>:  -->
+	<a href="{{ .URL }}">  
+		{{ with .Title }}
+		{{ . }}
+		{{ else }} 
+		{{ .File.BaseFileName }} 
+		{{ end }}
+	</a>
+</li>
+{{ end }}
