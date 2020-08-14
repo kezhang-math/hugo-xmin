@@ -2,9 +2,17 @@
 
 <main>
 <div id="singlemain">
+{{ with .Resources.Match "*.pdf"}}
+<div style="text-align: center">
+{{ range . }}
+<a href="{{ . }}">pdf link</a>
+{{ end }}
+</div>
+{{ end }}
 {{ .Content }}
 </div>
 </main>
 
 {{ partial "footer.html" . }}
 
+ 
